@@ -5,4 +5,6 @@ object Versions {
   val ScalaTestVer      = "2.2.4"
   val JunitVer          = "4.10"
   val NovocodeVer       = "0.10"
+
+  val HttpClientVer     = "4.3.6"
 }
