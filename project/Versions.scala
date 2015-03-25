@@ -6,5 +6,5 @@ object Versions {
   val JunitVer          = "4.10"
   val NovocodeVer       = "0.10"
 
-  val HttpClientVer     = "4.3.6"
+  val HttpClientVer     = "3.1"
 }

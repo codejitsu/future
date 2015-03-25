@@ -33,19 +33,16 @@ object ProjectBuild extends Build {
 object Dependencies {
   import Versions._
 
-  object Compile {
-    val httpClient = "org.apache.httpcomponents" %% "httpclient" % HttpClientVer
-  }
-
   object Test {
-    val scalatest     = "org.scalatest"           %% "scalatest"            % ScalaTestVer      % "test"
-    val junit         = "junit"                    % "junit"                % JunitVer          % "test"
-    val junitInterf   = "com.novocode"             % "junit-interface"      % NovocodeVer       % "test"
+    val httpCommons   = "commons-httpclient"          % "commons-httpclient"   % HttpClientVer     % "test"
+    val scalatest     = "org.scalatest"               %% "scalatest"           % ScalaTestVer      % "test"
+    val junit         = "junit"                       % "junit"                % JunitVer          % "test"
+    val junitInterf   = "com.novocode"                % "junit-interface"      % NovocodeVer       % "test"
   }
 
   /** Module deps */
 
-  val java7 = Seq(Test.junit, Test.junitInterf)
+  val java7 = Seq(Test.httpCommons, Test.junit, Test.junitInterf)
   val guava = Seq(Test.junit)
   val scala = Seq(Test.scalatest)
 }
