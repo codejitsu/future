@@ -7,4 +7,5 @@ object Versions {
   val NovocodeVer       = "0.10"
 
   val HttpClientVer     = "3.1"
+  val GuavaVer          = "18.0"
 }
