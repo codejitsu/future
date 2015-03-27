@@ -1,5 +1,6 @@
 package future.java7;
 
+import future.GetResult;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -39,11 +40,11 @@ public class FutureJava7Test {
     @Test
     public void createFutureAsync() throws IOException {
         for (final String url : urls) {
-            System.out.println("Start future for " + url + " at " + System.currentTimeMillis());
+            System.out.println("Before future for " + url + ". Timestamp: " + System.currentTimeMillis());
 
             final Future<GetResult> fut = getUrl(url);
 
-            System.out.println("Future for " + url + " created at " + System.currentTimeMillis() + " status: " + fut.isDone());
+            System.out.println("Future for " + url + " created at " + System.currentTimeMillis() + ", completed: " + fut.isDone());
         }
     }
 
@@ -59,7 +60,7 @@ public class FutureJava7Test {
 
                 final long end = System.currentTimeMillis();
 
-                System.out.println("Get future for " + url + " created at " + end + " status: " + fut.isDone() + " duration = " + (end - start) + " ms.");
+                System.out.println("Get future for " + url + " created at " + end + ", completed: " + fut.isDone() + ", duration = " + (end - start) + " ms.");
             } catch (ExecutionException ee) {
                 System.err.println("Exception in the future for " + url + " message: " + ee.getMessage());
             }

@@ -1,4 +1,4 @@
-package future.java7;
+package future;
 
 public class GetResult {
     public final String url;
