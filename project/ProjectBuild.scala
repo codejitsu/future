@@ -8,13 +8,18 @@ object ProjectBuild extends Build {
     id = "root",
     base = file("."),
     settings = parentSettings,
-    aggregate = Seq(java7Future, guavaFuture, scalaFuture)
+    aggregate = Seq(java7Future, java8Future, guavaFuture, scalaFuture)
   )
 
   lazy val java7Future = Project(
     id = "java7-future",
     base = file("./java7-future"),
     settings = defaultSettings ++ Seq(libraryDependencies ++= Dependencies.java7)
+  )
+  lazy val java8Future = Project(
+    id = "java8-future",
+    base = file("./java8-future"),
+    settings = defaultJava8Settings ++ Seq(libraryDependencies ++= Dependencies.java8)
   )
 
   lazy val guavaFuture = Project(
@@ -47,6 +52,7 @@ object Dependencies {
   /** Module deps */
 
   val java7 = Seq(Compile.httpCommons, Test.junit, Test.junitInterf)
+  val java8 = Seq(Compile.httpCommons, Test.junit, Test.junitInterf)
   val guava = java7 ++ Seq(Compile.guava)
   val scala = Seq(Test.scalatest)
 }

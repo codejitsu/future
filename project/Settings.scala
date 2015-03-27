@@ -34,6 +34,21 @@ object Settings extends Build {
     parallelExecution   in Global     := false
   )
 
+  val scalac8Settings = Seq("-encoding", "UTF-8", "-target:jvm-1.8", "-feature", "-language:_",
+    "-deprecation", "-unchecked", "-Xfatal-warnings", "-Xlint", "-language:higherKinds")
+
+  val javac8Settings = Seq("-encoding", "UTF-8", "-source", "1.8",
+    "-target", "1.8", "-Xlint:deprecation", "-Xlint:unchecked")
+
+  lazy val defaultJava8Settings = testSettings ++ Seq(
+    autoCompilerPlugins := true,
+    scalacOptions       ++= scalac8Settings,
+    javacOptions        in Compile    ++= javac8Settings,
+    ivyLoggingLevel     in ThisBuild  := UpdateLogging.Quiet,
+    parallelExecution   in ThisBuild  := false,
+    parallelExecution   in Global     := false
+  )
+
   val tests = inConfig(Test)(Defaults.testTasks) ++ inConfig(IntegrationTest)(Defaults.itSettings)
 
   val testOptionSettings = Seq(
