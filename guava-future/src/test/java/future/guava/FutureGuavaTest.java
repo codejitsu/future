@@ -1,8 +1,6 @@
 package future.guava;
 
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.*;
 import future.GetResult;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
@@ -80,25 +78,19 @@ public class FutureGuavaTest {
 
             final ListenableFuture<GetResult> fut = getUrl(url);
 
-            fut.addListener(new Runnable() {
+            Futures.addCallback(fut, new FutureCallback<GetResult>() {
                 @Override
-                public void run() {
-                    GetResult res = null;
-                    try {
-                        res = fut.get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        System.out.println("Exception: " + e.getMessage());
-                    } finally {
-                        if (res != null) {
-                            System.out.println("Future for " + res.url + " completed.");
-                        }
-
-                        completed.countDown();
-                    }
+                public void onSuccess(GetResult result) {
+                    System.out.println("Future for " + result.url + " completed.");
+                    completed.countDown();
                 }
-            }, MoreExecutors.newDirectExecutorService());
+
+                @Override
+                public void onFailure(Throwable t) {
+                    System.out.println("Exception: " + t.getMessage());
+                    completed.countDown();
+                }
+            });
 
             System.out.println("Future for " + url + " created at " + System.currentTimeMillis() + ", completed: " + fut.isDone());
         }
