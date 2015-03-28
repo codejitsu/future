@@ -16,6 +16,7 @@ object ProjectBuild extends Build {
     base = file("./java7-future"),
     settings = defaultSettings ++ Seq(libraryDependencies ++= Dependencies.java7)
   )
+
   lazy val java8Future = Project(
     id = "java8-future",
     base = file("./java8-future"),
