@@ -55,5 +55,5 @@ object Dependencies {
   val java7 = Seq(Compile.httpCommons, Test.junit, Test.junitInterf)
   val java8 = Seq(Compile.httpCommons, Test.junit, Test.junitInterf)
   val guava = java7 ++ Seq(Compile.guava)
-  val scala = Seq(Test.scalatest)
+  val scala = Seq(Compile.httpCommons, Test.scalatest)
 }

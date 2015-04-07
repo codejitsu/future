@@ -40,11 +40,15 @@ public class FutureJava7Test {
     @Test
     public void createFutureAsync() throws IOException {
         for (final String url : urls) {
-            System.out.println("Before future for " + url + ". Timestamp: " + System.currentTimeMillis());
+            final long start = System.currentTimeMillis();
+
+            System.out.println("Before future for " + url + ". Timestamp: " + start);
 
             final Future<GetResult> fut = getUrl(url);
 
-            System.out.println("Future for " + url + " created at " + System.currentTimeMillis() + ", completed: " + fut.isDone());
+            System.out.println("After future for " + url + ". Timestamp: " + System.currentTimeMillis());
+
+            System.out.println("Future for " + url + " created at " + start + ", completed: " + fut.isDone());
         }
     }
 
@@ -53,14 +57,13 @@ public class FutureJava7Test {
         for (final String url : urls) {
             try {
                 final long start = System.currentTimeMillis();
+
                 System.out.println("Start future for " + url + " at " + start);
 
                 final Future<GetResult> fut = getUrl(url);
                 fut.get();
 
-                final long end = System.currentTimeMillis();
-
-                System.out.println("Get future for " + url + " created at " + end + ", completed: " + fut.isDone() + ", duration = " + (end - start) + " ms.");
+                System.out.println("Get future for " + fut.get().url + " created at " + start + ", completed: " + fut.isDone() + ", duration = " + fut.get().duration + " ms.");
             } catch (ExecutionException ee) {
                 System.err.println("Exception in the future for " + url + " message: " + ee.getMessage());
             }
@@ -82,10 +85,10 @@ public class FutureJava7Test {
             for (int i = 0; i < futures.size(); i++) {
                 if (futures.get(i).isDone()) {
                     try {
-                        System.out.println("Future completed: " +
+                        System.out.println("Future completed, duration: " +
                                 futures.get(i).get().url + " -> " + futures.get(i).get().duration);
                     } catch (ExecutionException ee) {
-                        System.err.println("Exception in the future. Message: " + ee.getMessage());
+                        System.err.println("Future failed. Message: " + ee.getMessage());
                     }
 
                     allCompeted++;
@@ -95,7 +98,7 @@ public class FutureJava7Test {
                 }
             }
 
-            if (allCompeted == futures.size()) break;
+            if (allCompeted >= futures.size()) break;
         }
     }
 

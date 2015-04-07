@@ -42,11 +42,15 @@ public class FutureGuavaTest {
     @Test
     public void createFutureAsync() throws IOException {
         for (final String url : urls) {
-            System.out.println("Before future for " + url + ". Timestamp: " + System.currentTimeMillis());
+            final long start = System.currentTimeMillis();
+
+            System.out.println("Before future for " + url + ". Timestamp: " + start);
 
             final Future<GetResult> fut = getUrl(url);
 
-            System.out.println("Future for " + url + " created at " + System.currentTimeMillis() + ", completed: " + fut.isDone());
+            System.out.println("After future for " + url + ". Timestamp: " + System.currentTimeMillis());
+
+            System.out.println("Future for " + url + " created at " + start + ", completed: " + fut.isDone());
         }
     }
 
@@ -60,9 +64,7 @@ public class FutureGuavaTest {
                 final Future<GetResult> fut = getUrl(url);
                 fut.get();
 
-                final long end = System.currentTimeMillis();
-
-                System.out.println("Get future for " + url + " created at " + end + ", completed: " + fut.isDone() + ", duration = " + (end - start) + " ms.");
+                System.out.println("Get future for " + fut.get().url + " created at " + start + ", completed: " + fut.isDone() + ", duration = " + fut.get().duration + " ms.");
             } catch (ExecutionException ee) {
                 System.err.println("Exception in the future for " + url + " message: " + ee.getMessage());
             }
@@ -74,7 +76,9 @@ public class FutureGuavaTest {
         final CountDownLatch completed = new CountDownLatch(urls.size());
 
         for (final String url : urls) {
-            System.out.println("Before future for " + url + ". Timestamp: " + System.currentTimeMillis());
+            final long start = System.currentTimeMillis();
+
+            System.out.println("Before future for " + url + ". Timestamp: " + start);
 
             final ListenableFuture<GetResult> fut = getUrl(url);
 
@@ -92,7 +96,7 @@ public class FutureGuavaTest {
                 }
             });
 
-            System.out.println("Future for " + url + " created at " + System.currentTimeMillis() + ", completed: " + fut.isDone());
+            System.out.println("Future for " + url + " created at " + start + ", completed: " + fut.isDone());
         }
 
         completed.await();
